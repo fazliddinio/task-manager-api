@@ -63,16 +63,15 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "task_manager_api"
-        "USER": "fazliddin"
-        "PASSWORD": "mypassword"
-        "PORT": "5432"
+        "NAME": "task_manager_api",
+        "USER": "fazliddin",
+        "PASSWORD": "mypassword",
+        "PORT": "5432",
+        "HOST": "localhost",
     }
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
