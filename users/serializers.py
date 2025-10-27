@@ -7,6 +7,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     """
     Serializer for the user model.
     """
+
+    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     class Meta:
         model = CustomUser
         fields = ['email', 
@@ -46,7 +48,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         validated_data.pop('password2')
 
         password = validated_data.pop('password')
-        
+
         user = CustomUser.objects.create_user(password=password, **validated_data)
 
         return user
