@@ -36,28 +36,29 @@ class UserManager(BaseUserManager):
         if extra_fields.get("is_staff") is not True:
             raise ValueError(_("Superuser must have is_staff=True."))
 
-        return self.create_user(email, password, **extra_fields):
+
+        return self.create_user(email, password, **extra_fields)
 
     
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
-    Custom User model using email as the USERNAME_FIELD.
+    Custom User model using email as the USERNAME_FIELDS.
     No first_name or last_name.
     """
     email = models.EmailField(_("email_address"), unique=True)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    data_joined = models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
 
-    objects = UserManager()
-
-    USERNAME_FIELDS = "email"
+    USERNAME_FIELD = 'email'
 
     REQUIRED_FIELDS = []
 
-
+    objects = UserManager()
 
     def __str__(self):
         return f"{self.email}"

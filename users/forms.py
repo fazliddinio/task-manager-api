@@ -8,7 +8,7 @@ class CustomUserCreationForm(AdminUserCreationForm):
     """
     class Meta:
         model = CustomUser
-        fields = ("email")
+        fields = ('email', 'first_name', 'last_name',)
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -18,5 +18,5 @@ class CustomUserChangeForm(UserChangeForm):
         A form for updating existing users. Includes only the email field.
         """
         model = CustomUser
-        fields = ("email")
+        fields = ('email', 'first_name', 'last_name',)
 
