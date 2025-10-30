@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
 
     # My apps
-    "users.apps.UsersConfig",
+    "users",
+    "tasks",
 ]
 
 MIDDLEWARE = [
