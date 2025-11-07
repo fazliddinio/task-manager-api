@@ -86,9 +86,7 @@ class UserAuthenticationTests(APITestCase):
             response.data["message"],
             f"User {user_data['email']} created successfully. Please log in",
         )
-        self.assertTrue(
-            CustomUser.objects.filter(email=user_data["email"]).exists()
-        )
+        self.assertTrue(CustomUser.objects.filter(email=user_data["email"]).exists())
 
     def test_user_registration_password_mismatch(self):
         """
@@ -104,12 +102,12 @@ class UserAuthenticationTests(APITestCase):
         response = self.client.post(self.register_url, data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertFalse(
-            CustomUser.objects.filter(email=data["email"]).exists()
-        )
+        self.assertFalse(CustomUser.objects.filter(email=data["email"]).exists())
         # Check the details field since custom exception handler wraps errors
         self.assertIn("password", response.data["details"])
-        self.assertEqual(response.data["details"]["password"][0], "Password fields did not match")
+        self.assertEqual(
+            response.data["details"]["password"][0], "Password fields did not match"
+        )
 
     def test_user_login_success(self):
         """

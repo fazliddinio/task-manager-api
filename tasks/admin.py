@@ -25,6 +25,4 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["name", "user", "color"]
     list_filter = ["user"]
     search_fields = ["name"]
-    fieldsets = (
-        (None, {"fields": ("name", "user", "color")}),
-    )
+    fieldsets = ((None, {"fields": ("name", "user", "color")}),)

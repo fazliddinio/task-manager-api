@@ -33,21 +33,21 @@ class TaskListCreateView(generics.ListCreateAPIView):
         # Check if priority ordering is requested
         ordering_param = self.request.query_params.get("ordering", "")
         priority_in_ordering = "priority" in ordering_param
-        
+
         if priority_in_ordering:
             # Remove priority from ordering_fields temporarily to prevent OrderingFilter from handling it
             original_ordering_fields = self.ordering_fields
             self.ordering_fields = [f for f in self.ordering_fields if f != "priority"]
-            
+
             # Apply filters (excluding OrderingFilter's priority handling)
             queryset = super().filter_queryset(queryset)
-            
+
             # Restore ordering_fields
             self.ordering_fields = original_ordering_fields
-            
+
             # Handle custom priority ordering
             ordering_fields = [field.strip() for field in ordering_param.split(",")]
-            
+
             # Map priority values to integers for proper ordering
             # HIGH=3, MEDIUM=2, LOW=1
             priority_order = Case(
@@ -58,7 +58,7 @@ class TaskListCreateView(generics.ListCreateAPIView):
                 output_field=IntegerField(),
             )
             queryset = queryset.annotate(priority_order=priority_order)
-            
+
             # Build ordering list
             ordering_list = []
             for field in ordering_fields:
@@ -68,16 +68,16 @@ class TaskListCreateView(generics.ListCreateAPIView):
                     ordering_list.append("priority_order")
                 else:
                     ordering_list.append(field)
-            
+
             # Apply default ordering if no other ordering specified
             if not ordering_list:
                 ordering_list = self.ordering
-            
+
             queryset = queryset.order_by(*ordering_list)
         else:
             # Use standard filtering
             queryset = super().filter_queryset(queryset)
-        
+
         return queryset
 
     def perform_create(self, serializer):

@@ -96,9 +96,7 @@ class CategorySerializer(serializers.ModelSerializer):
             name = data.get("name", "").strip()
             if name:
                 # Check for duplicate category name for this user
-                existing = Category.objects.filter(
-                    user=request.user, name__iexact=name
-                )
+                existing = Category.objects.filter(user=request.user, name__iexact=name)
                 # Exclude current instance if updating
                 if self.instance:
                     existing = existing.exclude(pk=self.instance.pk)
